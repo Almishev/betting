@@ -79,9 +79,9 @@ function MatchPrediction() {
   function getRandomResult() {
     const randomNumber = Math.random();
 
-    if (randomNumber < 0.6) {
+    if (randomNumber < 0.65) {
       return '1';
-    } else if (randomNumber < 0.80) {
+    } else if (randomNumber < 0.85) {
       return 'X';
     } else {
       return '2';
@@ -141,29 +141,31 @@ function MatchPrediction() {
   function handleBettingAmountChange(event) {
     setBettingAmount(Number(event.target.value));
   }
-  
-  function calculateProfit(selectedPredictions, matchedPredictions, bettingAmount) {
-    const coefficients = {
-      '1': 1.5,
-      'X': 2.5,
-      '2': 3.9
-    };
-  
-    let profit = 0;
-  
-    for (const match in selectedPredictions) {
-      if (selectedPredictions[match] === randomResults[match]) {
-        profit += coefficients[randomResults[match]] * bettingAmount;
-      }
+  function calculateProfit(matchedPredictions, bettingAmount) {
+    let profitMultiplier = 1;
+    
+    switch (matchedPredictions) {
+
+      
+      case 7:
+        profitMultiplier = 2;
+        break;
+      case 8:
+        profitMultiplier = 3;
+        break;
+      case 9:
+        profitMultiplier = 4;
+        break;
+      case 10:
+        profitMultiplier = 5;
+        break;
+      default:
+        profitMultiplier = 0;
     }
-  
-    return profit;
+    
+    return bettingAmount * profitMultiplier;
   }
-  
-
-  
-  const profit = calculateProfit(selectedPredictions, matchedPredictions, bettingAmount);
-
+  const profit = calculateProfit(matchedPredictions, bettingAmount);  
   
   return (
     <div className="container mt-4">
@@ -304,9 +306,8 @@ className="border p-3">
 <div className="text-center">
 <p className='h4'>  <span className='text-warning'>Number of matched predictions: {matchedPredictions}</span></p>
 <p className='h4'>  
-  <span className='text-success'>Profit: {profit}</span>
-</p>
-
+        <span className='text-success'>Profit: {profit}</span>
+      </p>
 <table className="table table-bordered table-striped">
 <thead className="table-dark">
   <tr>
@@ -330,4 +331,3 @@ className="border p-3">
 }
 
 export default MatchPrediction;
-

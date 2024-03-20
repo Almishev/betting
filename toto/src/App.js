@@ -1,11 +1,12 @@
-import LotteryGameX from "./LotteryGameX";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import MatchPrediction from "./MatchPrediction";
 
 
 function App() {
   return (
     <>
-      <LotteryGameX />
+      <MatchPrediction />
         
     </>
   );
